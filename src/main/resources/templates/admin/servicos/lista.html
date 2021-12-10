@@ -26,7 +26,8 @@
                     <td th:text="${servico.nome}">Teste Serviço</td>
                     <td th:text="${servico.valorMinimo}">2</td>
                     <td>
-                      <a href="#" class="btn btn-sm btn-info">Editar</a>
+                      <a href="#" class="btn btn-sm btn-info"
+                        th:href="@{/admin/servicos/{id}/editar (id=${servico.id})}">Editar</a>
                       <span style="margin-left: 10px"></span>
                       <a class="btn btn-sm btn-danger"
                         th:href="@{/admin/servicos/{id}/excluir (id=${servico.id})}"
