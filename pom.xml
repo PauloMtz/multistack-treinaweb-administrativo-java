@@ -58,6 +58,12 @@
 			<artifactId>webjars-locator-core</artifactId>
 			<version>0.48</version>
 		</dependency>
+		<!-- https://www.webjars.org/ -->
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>jquery-mask-plugin</artifactId>
+			<version>1.14.16</version>
+		</dependency>
 
 		<!--
 			[ no VsCode ]

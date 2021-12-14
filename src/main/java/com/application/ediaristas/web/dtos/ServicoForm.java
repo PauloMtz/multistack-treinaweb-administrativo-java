@@ -10,6 +10,9 @@ import javax.validation.constraints.Size;
 
 import com.application.ediaristas.core.enums.Icone;
 
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 public class ServicoForm {
 
     /*
@@ -23,6 +26,7 @@ public class ServicoForm {
 
     @NotNull
     @PositiveOrZero
+    @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorMinimo;
 
     @NotNull
@@ -32,6 +36,7 @@ public class ServicoForm {
     @NotNull
     @PositiveOrZero
     @Max(100)
+    @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal comissao;
 
     @NotNull
@@ -40,6 +45,7 @@ public class ServicoForm {
 
     @NotNull
     @PositiveOrZero
+    @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorQuarto;
 
     @NotNull
@@ -48,6 +54,7 @@ public class ServicoForm {
 
     @NotNull
     @PositiveOrZero
+    @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorSala;
 
     @NotNull
@@ -56,6 +63,7 @@ public class ServicoForm {
 
     @NotNull
     @PositiveOrZero
+    @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorBanheiro;
 
     @NotNull
@@ -64,6 +72,7 @@ public class ServicoForm {
 
     @NotNull
     @PositiveOrZero
+    @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorCozinha;
 
     @NotNull
@@ -72,6 +81,7 @@ public class ServicoForm {
 
     @NotNull
     @PositiveOrZero
+    @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorQuintal;
 
     @NotNull
@@ -80,6 +90,7 @@ public class ServicoForm {
 
     @NotNull
     @PositiveOrZero
+    @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorOutros;
 
     @NotNull
