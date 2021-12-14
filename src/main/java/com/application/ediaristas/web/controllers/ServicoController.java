@@ -3,10 +3,8 @@ package com.application.ediaristas.web.controllers;
 import javax.validation.Valid;
 
 import com.application.ediaristas.core.enums.Icone;
-import com.application.ediaristas.core.models.Servico;
-import com.application.ediaristas.core.repositories.ServicoRepository;
 import com.application.ediaristas.web.dtos.ServicoForm;
-import com.application.ediaristas.web.mappers.WebServicoMapper;
+import com.application.ediaristas.web.services.WebServicoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,15 +21,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class ServicoController {
 
     @Autowired
-    private ServicoRepository repository;
-
-    @Autowired
-    private WebServicoMapper mapper;
+    private WebServicoService service;
 
     @GetMapping
     public ModelAndView listar() {
         var mv = new ModelAndView("admin/servicos/lista");
-        mv.addObject("servicos", repository.findAll());
+        mv.addObject("servicos", service.listarTodos());
         return mv;
     }
     
@@ -42,23 +37,19 @@ public class ServicoController {
         return mv;
     }
 
-    // o BIndingResult deve vir imediatemente após o dado validado
     @PostMapping("/cadastrar")
     public String cadastrar(@Valid ServicoForm servicoForm, BindingResult result) {
         if (result.hasErrors()) {
             return "admin/servicos/form";
         }
-        var servico = mapper.toModel(servicoForm);
-        repository.save(servico);
+        service.cadastrar(servicoForm);
         return "redirect:/admin/servicos";
     }
 
     @GetMapping("/{id}/editar")
     public ModelAndView editar(@PathVariable Long id) {
         var mv = new ModelAndView("admin/servicos/form");
-        var servico = repository.getById(id);
-        var servicoForm = mapper.toForm(servico);
-        mv.addObject("servicoForm", servicoForm);
+        mv.addObject("servicoForm", service.buscarPorId(id));
         return mv;
     }
     
@@ -67,15 +58,14 @@ public class ServicoController {
         if (result.hasErrors()) {
             return "admin/servicos/form";
         }
-        var servico = mapper.toModel(servicoForm);
-        servico.setId(id);
-        repository.save(servico);
+
+        service.editar(servicoForm, id);
         return "redirect:/admin/servicos";
     }
 
     @GetMapping("/{id}/excluir")
     public String excluir(@PathVariable Long id) {
-        repository.deleteById(id);
+        service.excluir(id);
         return "redirect:/admin/servicos";
     }
 
