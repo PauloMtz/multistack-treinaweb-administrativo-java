@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>
-      App Name | <th:block th:include="${title}"> Dashboard </th:block>
+      e-Diaristas | <th:block th:include="${title}"> Dashboard </th:block>
     </title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -59,6 +59,10 @@
     />
 
     <th:block th:replace="${styles}"></th:block>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-icon.png}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/estilo.css}">
   </head>
 
   <body class="hold-transition sidebar-mini layout-fixed">

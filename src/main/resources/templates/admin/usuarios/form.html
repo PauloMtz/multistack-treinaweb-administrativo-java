@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html th:replace="~{adminlte3 :: layout(~{::title}, ~{::main}, _, ~{::scripts})}">
+<head>
+  <title>Cadastro de Usuário</title>
+</head>
+<body>
+  <main>
+    <div class="row">
+      <div class="col">
+        <div class="card card-primary">
+          <div class="card-header">
+            <div class="card-title">Cadastro de Usuário</div>
+          </div>
+          
+          <div class="card-body">
+            <form method="post" action="/admin/usuarios/cadastrar" th:object="${usuarioForm}">
+
+            <div class="row">
+              <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="nome">Nome</label>
+                  <input type="text" class="form-control" th:field="*{nomeCompleto}" />
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="email">E-mail</label>
+                  <input type="text" class="form-control money" th:field="*{email}" />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="nome">Senha</label>
+                  <input type="text" class="form-control" th:field="*{senha}" />
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="email">Tipo de Usuário</label>
+                  <input type="text" class="form-control money" th:field="*{tipoUsuario}" />
+                </div>
+              </div>
+            </div>
+
+            <input type="submit" value="Salvar" class="btn btn-primary" style="width: 140px" />
+            <a href="/admin/usuarios" class="btn btn-default" style="width: 140px">Voltar</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<th:block th:fragment="scripts">
+  <script th:src="@{/webjars/jquery-mask-plugin/dist/jquery.mask.min.js}"></script>
+  <script>
+    $(document).ready(function() {
+      $('.money').mask("#.##0,00", {reverse: true});
+    })
+  </script>
+</th:block>
+</body>
+</html>
