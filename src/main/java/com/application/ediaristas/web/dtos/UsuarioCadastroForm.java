@@ -27,9 +27,8 @@ public class UsuarioCadastroForm {
     public UsuarioCadastroForm() {
     }
 
-    public UsuarioCadastroForm(@NotNull @Size(min = 3, max = 255) String nomeCompleto,
-            @NotNull @Size(min = 3, max = 255) @Email String email, @NotNull @NotEmpty String senha,
-            @NotNull @NotEmpty String confirmacaoSenha) {
+    public UsuarioCadastroForm(String nomeCompleto, String email,
+        String senha, String confirmacaoSenha) {
         this.nomeCompleto = nomeCompleto;
         this.email = email;
         this.senha = senha;

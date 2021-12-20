@@ -1,6 +1,6 @@
 package com.application.ediaristas.web.controllers;
 
-import com.application.ediaristas.core.models.Usuario;
+import com.application.ediaristas.web.dtos.UsuarioCadastroForm;
 import com.application.ediaristas.web.services.WebUsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UsuarioController {
     @GetMapping("/cadastrar")
     public ModelAndView cadastrar() {
         var mv = new ModelAndView("admin/usuarios/form");
-        mv.addObject("usuarioForm", new Usuario());
+        mv.addObject("usuarioForm", new UsuarioCadastroForm());
         return mv;
     }
 }
