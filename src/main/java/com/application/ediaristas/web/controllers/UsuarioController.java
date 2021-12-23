@@ -51,6 +51,13 @@ public class UsuarioController {
         return "redirect:/admin/usuarios";
     }
 
+    @GetMapping("/{id}/editar")
+    public ModelAndView editar(@PathVariable Long id) {
+        var mv = new ModelAndView("admin/usuarios/edit-form");
+        mv.addObject("editForm", service.buscarFormPorId(id));
+        return mv;
+    }
+
     @GetMapping("/{id}/excluir")
     public String excluir(@PathVariable Long id, RedirectAttributes attrs) {
         service.excluir(id);

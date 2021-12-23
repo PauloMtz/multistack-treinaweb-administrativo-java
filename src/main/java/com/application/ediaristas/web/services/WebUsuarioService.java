@@ -7,6 +7,7 @@ import com.application.ediaristas.core.models.TipoUsuario;
 import com.application.ediaristas.core.models.Usuario;
 import com.application.ediaristas.core.repositories.UsuarioRepository;
 import com.application.ediaristas.web.dtos.UsuarioCadastroForm;
+import com.application.ediaristas.web.dtos.UsuarioEdicaoForm;
 import com.application.ediaristas.web.mappers.WebUsuarioMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class WebUsuarioService {
         return usuarioRepository
             .findById(id)
             .orElseThrow(() -> new UsuarioNaoEncontradoException(mensagem));
+    }
+
+    public UsuarioEdicaoForm buscarFormPorId(Long id) {
+        var usuario = buscarPorId(id);
+        return mapper.toForm(usuario);
     }
 
     public void excluir(Long id) {
