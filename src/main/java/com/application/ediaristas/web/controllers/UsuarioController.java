@@ -2,6 +2,7 @@ package com.application.ediaristas.web.controllers;
 
 import javax.validation.Valid;
 
+import com.application.ediaristas.core.exceptions.SenhasNaoConferemException;
 import com.application.ediaristas.web.dtos.FlashMessage;
 import com.application.ediaristas.web.dtos.UsuarioCadastroForm;
 import com.application.ediaristas.web.dtos.UsuarioEdicaoForm;
@@ -46,9 +47,15 @@ public class UsuarioController {
             return "admin/usuarios/form";
         }
 
-        service.cadastrar(usuarioForm);
+        try {
+            service.cadastrar(usuarioForm);
         attrs.addFlashAttribute("alert", new FlashMessage("alert-success", 
             "Usuário cadastrado com sucesso!"));
+        } catch (SenhasNaoConferemException e) {
+            result.addError(e.getFieldError());
+            return "admin/usuarios/form";
+        }
+        
         return "redirect:/admin/usuarios";
     }
 

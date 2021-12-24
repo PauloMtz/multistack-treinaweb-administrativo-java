@@ -2,6 +2,7 @@ package com.application.ediaristas.web.services;
 
 import java.util.List;
 
+import com.application.ediaristas.core.exceptions.SenhasNaoConferemException;
 import com.application.ediaristas.core.exceptions.UsuarioNaoEncontradoException;
 import com.application.ediaristas.core.models.TipoUsuario;
 import com.application.ediaristas.core.models.Usuario;
@@ -12,6 +13,7 @@ import com.application.ediaristas.web.mappers.WebUsuarioMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.FieldError;
 
 @Service
 public class WebUsuarioService {
@@ -27,6 +29,16 @@ public class WebUsuarioService {
     }
 
     public Usuario cadastrar(UsuarioCadastroForm form) {
+        var senha = form.getSenha();
+        var confirmacaoSenha = form.getConfirmacaoSenha();
+
+        if (!senha.equals(confirmacaoSenha)) {
+            var mensagem = "As senhas não conferem";
+            var fieldError = new FieldError(form.getClass().getName(),
+                "confirmacaoSenha", form.getConfirmacaoSenha(), false, null, null, mensagem);
+            throw new SenhasNaoConferemException(mensagem, fieldError);
+        }
+
         var model = mapper.toModel(form);
         model.setTipoUsuario(TipoUsuario.ADMIN);
         return usuarioRepository.save(model);
