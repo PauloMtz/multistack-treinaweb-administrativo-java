@@ -42,7 +42,7 @@ public class WebUsuarioService {
 
         var model = mapper.toModel(form);
         model.setTipoUsuario(TipoUsuario.ADMIN);
-        validaEmailUnico(model);
+        validarEmailUnico(model);
         return usuarioRepository.save(model);
     }
 
@@ -64,7 +64,7 @@ public class WebUsuarioService {
         model.setId(usuario.getId());
         model.setSenha(usuario.getSenha());
         model.setTipoUsuario(usuario.getTipoUsuario());
-        validaEmailUnico(model);
+        validarEmailUnico(model);
         return usuarioRepository.save(model);
     }
 
@@ -83,5 +83,15 @@ public class WebUsuarioService {
                 throw new EmailJaCadastradoException(mensagem, fieldError);
             }
         });
+    }
+
+    private void validarEmailUnico(Usuario usuario) {
+
+        if (usuarioRepository.isEmailJaCadastrado(usuario.getEmail(), usuario.getId())) {
+            var mensagem = "Este e-mail já está cadastrado na base de dados.";
+            var fieldError = new FieldError(usuario.getClass().getName(),
+                "email", usuario.getEmail(), false, null, null, mensagem);
+            throw new EmailJaCadastradoException(mensagem, fieldError);
+        }
     }
 }
