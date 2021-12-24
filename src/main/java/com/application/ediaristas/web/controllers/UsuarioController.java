@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import com.application.ediaristas.web.dtos.FlashMessage;
 import com.application.ediaristas.web.dtos.UsuarioCadastroForm;
+import com.application.ediaristas.web.dtos.UsuarioEdicaoForm;
 import com.application.ediaristas.web.services.WebUsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,20 @@ public class UsuarioController {
         var mv = new ModelAndView("admin/usuarios/edit-form");
         mv.addObject("editForm", service.buscarFormPorId(id));
         return mv;
+    }
+
+    @PostMapping("/{id}/editar")
+    public String editar(@PathVariable Long id, 
+        @Valid @ModelAttribute("editForm") UsuarioEdicaoForm editForm,
+        BindingResult result, RedirectAttributes attrs) {
+        if (result.hasErrors()) {
+            return "admin/usuarios/edit-form";
+        }
+
+        service.editar(editForm, id);
+        attrs.addFlashAttribute("alert", new FlashMessage("alert-success", 
+            "Usuário atualizado com sucesso!"));
+        return "redirect:/admin/usuarios";
     }
 
     @GetMapping("/{id}/excluir")
