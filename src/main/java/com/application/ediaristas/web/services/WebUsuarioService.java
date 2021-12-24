@@ -2,6 +2,7 @@ package com.application.ediaristas.web.services;
 
 import java.util.List;
 
+import com.application.ediaristas.core.exceptions.EmailJaCadastradoException;
 import com.application.ediaristas.core.exceptions.SenhasNaoConferemException;
 import com.application.ediaristas.core.exceptions.UsuarioNaoEncontradoException;
 import com.application.ediaristas.core.models.TipoUsuario;
@@ -41,6 +42,7 @@ public class WebUsuarioService {
 
         var model = mapper.toModel(form);
         model.setTipoUsuario(TipoUsuario.ADMIN);
+        validaEmailUnico(model);
         return usuarioRepository.save(model);
     }
 
@@ -62,11 +64,24 @@ public class WebUsuarioService {
         model.setId(usuario.getId());
         model.setSenha(usuario.getSenha());
         model.setTipoUsuario(usuario.getTipoUsuario());
+        validaEmailUnico(model);
         return usuarioRepository.save(model);
     }
 
     public void excluir(Long id) {
         var usuario = buscarPorId(id);
         usuarioRepository.delete(usuario);
+    }
+
+    private void validaEmailUnico(Usuario usuario) {
+
+        usuarioRepository.findByEmail(usuario.getEmail()).ifPresent((usuarioEncontrado) -> {
+            if (!usuarioEncontrado.equals(usuario)) {
+                var mensagem = "Este e-mail já está cadastrado na base de dados.";
+                var fieldError = new FieldError(usuario.getClass().getName(),
+                    "email", usuario.getEmail(), false, null, null, mensagem);
+                throw new EmailJaCadastradoException(mensagem, fieldError);
+            }
+        });
     }
 }

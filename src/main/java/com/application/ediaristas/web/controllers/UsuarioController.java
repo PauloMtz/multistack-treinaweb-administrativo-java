@@ -2,7 +2,9 @@ package com.application.ediaristas.web.controllers;
 
 import javax.validation.Valid;
 
+import com.application.ediaristas.core.exceptions.EmailJaCadastradoException;
 import com.application.ediaristas.core.exceptions.SenhasNaoConferemException;
+import com.application.ediaristas.core.exceptions.ValidacaoException;
 import com.application.ediaristas.web.dtos.FlashMessage;
 import com.application.ediaristas.web.dtos.UsuarioCadastroForm;
 import com.application.ediaristas.web.dtos.UsuarioEdicaoForm;
@@ -49,9 +51,9 @@ public class UsuarioController {
 
         try {
             service.cadastrar(usuarioForm);
-        attrs.addFlashAttribute("alert", new FlashMessage("alert-success", 
-            "Usuário cadastrado com sucesso!"));
-        } catch (SenhasNaoConferemException e) {
+            attrs.addFlashAttribute("alert", new FlashMessage("alert-success", 
+                "Usuário cadastrado com sucesso!"));
+        } catch (ValidacaoException e) {
             result.addError(e.getFieldError());
             return "admin/usuarios/form";
         }
@@ -74,9 +76,15 @@ public class UsuarioController {
             return "admin/usuarios/edit-form";
         }
 
-        service.editar(editForm, id);
-        attrs.addFlashAttribute("alert", new FlashMessage("alert-success", 
-            "Usuário atualizado com sucesso!"));
+        try {
+            service.editar(editForm, id);
+            attrs.addFlashAttribute("alert", new FlashMessage("alert-success", 
+                "Usuário atualizado com sucesso!"));
+        } catch (ValidacaoException e) {
+            result.addError(e.getFieldError());
+            return "admin/usuarios/edit-form";
+        }
+
         return "redirect:/admin/usuarios";
     }
 
