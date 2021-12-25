@@ -13,6 +13,7 @@ import com.application.ediaristas.web.dtos.UsuarioEdicaoForm;
 import com.application.ediaristas.web.mappers.WebUsuarioMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 
@@ -24,6 +25,9 @@ public class WebUsuarioService {
 
     @Autowired
     private WebUsuarioMapper mapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<Usuario> listaTodos() {
         return usuarioRepository.findAll();
@@ -41,6 +45,8 @@ public class WebUsuarioService {
         }
 
         var model = mapper.toModel(form);
+        var senhaHash = passwordEncoder.encode(model.getSenha());
+        model.setSenha(senhaHash);
         model.setTipoUsuario(TipoUsuario.ADMIN);
         validarEmailUnico(model);
         return usuarioRepository.save(model);
@@ -73,7 +79,7 @@ public class WebUsuarioService {
         usuarioRepository.delete(usuario);
     }
 
-    private void validaEmailUnico(Usuario usuario) {
+    /*private void validaEmailUnico(Usuario usuario) {
 
         usuarioRepository.findByEmail(usuario.getEmail()).ifPresent((usuarioEncontrado) -> {
             if (!usuarioEncontrado.equals(usuario)) {
@@ -83,7 +89,7 @@ public class WebUsuarioService {
                 throw new EmailJaCadastradoException(mensagem, fieldError);
             }
         });
-    }
+    }*/
 
     private void validarEmailUnico(Usuario usuario) {
 

@@ -22,16 +22,14 @@
             <div class="card-body">
               <table class="table table-striped">
                 <thead>
-                  <th>#</th>
                   <th>Nome</th>
                   <th>Valor Mínimo</th>
-                  <th>Opções</th>
+                  <th></th>
                 </thead>
                 <tbody>
                   <tr th:each="servico : ${servicos}">
-                    <td th:text="${servico.id}">1</td>
-                    <td th:text="${servico.nome}">Teste Serviço</td>
-                    <td th:text="${servico.valorMinimo}">2</td>
+                    <td th:text="${servico.nome}"></td>
+                    <td th:text="${servico.valorMinimo}"></td>
                     <td>
                       <a href="#" class="btn btn-sm btn-info"
                         th:href="@{/admin/servicos/{id}/editar (id=${servico.id})}">Editar

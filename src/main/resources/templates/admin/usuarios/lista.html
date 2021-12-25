@@ -20,16 +20,14 @@
           <div class="card-body">
             <table class="table table-striped">
             <thead>
-              <th>#</th>
               <th>Nome</th>
               <th>E-mail</th>
-              <th>Opções</th>
+              <th></th>
             </thead>
             <tbody>
               <tr th:each="usuario : ${usuarios}">
-                <td th:text="${usuario.id}">1</td>
-                <td th:text="${usuario.nomeCompleto}">Teste Serviço</td>
-                <td th:text="${usuario.email}">2</td>
+                <td th:text="${usuario.nomeCompleto}"></td>
+                <td th:text="${usuario.email}"></td>
                 <td>
                   <a href="#" class="btn btn-sm btn-info" 
                     th:href="@{/admin/usuarios/{id}/editar (id=${usuario.id})}">Editar
