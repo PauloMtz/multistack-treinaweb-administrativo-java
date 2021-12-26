@@ -2,8 +2,6 @@ package com.application.ediaristas.web.controllers;
 
 import javax.validation.Valid;
 
-import com.application.ediaristas.core.exceptions.EmailJaCadastradoException;
-import com.application.ediaristas.core.exceptions.SenhasNaoConferemException;
 import com.application.ediaristas.core.exceptions.ValidacaoException;
 import com.application.ediaristas.web.dtos.FlashMessage;
 import com.application.ediaristas.web.dtos.UsuarioCadastroForm;

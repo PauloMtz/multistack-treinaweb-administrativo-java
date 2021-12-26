@@ -33,13 +33,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
             .antMatchers("/admin/**").hasAuthority(TipoUsuario.ADMIN.toString())
+            .antMatchers("/img/**").permitAll()
+            .antMatchers("/css/**").permitAll()
             .anyRequest().authenticated();
 
-        http.formLogin();
+        http.formLogin()
+            .loginPage("/admin/login")
+            .usernameParameter("email")
+            .passwordParameter("senha")
+            .defaultSuccessUrl("/admin/servicos")
+            .permitAll();
 
         http.logout()
             //.logoutUrl("/admin/logout");
             .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"));
+            //.logoutSuccessUrl("/url/a/ser/direcionada");
     }
 
     @Override
