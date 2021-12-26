@@ -3,6 +3,7 @@ package com.application.ediaristas.config;
 import com.application.ediaristas.core.models.TipoUsuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +23,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Value("${com.application.ediaristas.rememberMe.key}")
+    private String rememberMeKey;
+
+    @Value("${com.application.ediaristas.validitySeconds}")
+    private int rememberMeValiditySeconds;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -48,6 +55,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             //.logoutUrl("/admin/logout");
             .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"));
             //.logoutSuccessUrl("/url/a/ser/direcionada");
+
+        http.rememberMe()
+            .rememberMeParameter("lembrar-me")
+            .tokenValiditySeconds(rememberMeValiditySeconds)
+            .key(rememberMeKey);
     }
 
     @Override
