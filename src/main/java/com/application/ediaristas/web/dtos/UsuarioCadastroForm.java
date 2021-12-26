@@ -5,7 +5,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class UsuarioCadastroForm {
+import com.application.ediaristas.web.interfaces.IConfirmacaoSenha;
+
+public class UsuarioCadastroForm implements IConfirmacaoSenha {
 
     @NotNull
     @Size(min = 3, max = 255)

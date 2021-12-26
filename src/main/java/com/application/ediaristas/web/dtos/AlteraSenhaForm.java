@@ -3,7 +3,9 @@ package com.application.ediaristas.web.dtos;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class AlteraSenhaForm {
+import com.application.ediaristas.web.interfaces.IConfirmacaoSenha;
+
+public class AlteraSenhaForm implements IConfirmacaoSenha {
     
     @NotNull
     @NotEmpty
