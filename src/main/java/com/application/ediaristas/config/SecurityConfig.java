@@ -53,8 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.logout()
             //.logoutUrl("/admin/logout");
-            .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"));
-            //.logoutSuccessUrl("/url/a/ser/direcionada");
+            .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
+            .logoutSuccessUrl("/admin/login");
 
         http.rememberMe()
             .rememberMeParameter("lembrar-me")

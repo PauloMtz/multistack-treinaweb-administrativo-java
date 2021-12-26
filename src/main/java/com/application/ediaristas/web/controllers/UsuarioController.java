@@ -1,8 +1,11 @@
 package com.application.ediaristas.web.controllers;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import com.application.ediaristas.core.exceptions.ValidacaoException;
+import com.application.ediaristas.web.dtos.AlteraSenhaForm;
 import com.application.ediaristas.web.dtos.FlashMessage;
 import com.application.ediaristas.web.dtos.UsuarioCadastroForm;
 import com.application.ediaristas.web.dtos.UsuarioEdicaoForm;
@@ -91,5 +94,31 @@ public class UsuarioController {
         service.excluir(id);
         attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Usuário excluído com sucesso!"));
         return "redirect:/admin/usuarios";
+    }
+
+    @GetMapping("/alterar-senha")
+    public ModelAndView alterarSenha() {
+        var mv = new ModelAndView("admin/usuarios/alterar-senha");
+        mv.addObject("alterarSenhaForm", new AlteraSenhaForm());
+        return mv;
+    }
+
+    @PostMapping("/alterar-senha")
+    public String alterarSenha(@Valid @ModelAttribute("alterarSenhaForm") AlteraSenhaForm alterarSenhaForm,
+        BindingResult result, RedirectAttributes atts, Principal principal) {
+
+        if (result.hasErrors()) {
+            return "admin/usuarios/alterar-senha";
+        }
+
+        try {
+            service.alterarSenha(alterarSenhaForm, principal.getName());
+            atts.addFlashAttribute("alert", new FlashMessage("alert-success", "Senha alterada com sucesso!"));
+        } catch (ValidacaoException e) {
+            result.addError(e.getFieldError());
+            return "admin/usuarios/alterar-senha";
+        }
+
+        return "redirect:/admin/usuarios/alterar-senha";
     }
 }
