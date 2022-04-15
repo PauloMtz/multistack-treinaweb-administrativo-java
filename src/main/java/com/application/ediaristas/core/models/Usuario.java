@@ -1,12 +1,17 @@
 package com.application.ediaristas.core.models;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Usuario {
@@ -27,6 +32,29 @@ public class Usuario {
     @Column(name = "tipo_usuario", length = 8)
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
+
+    @Column(nullable = true, unique = true, length = 11)
+    private String cpf;
+
+    @Column(nullable = true)
+    private LocalDate nascimento;
+
+    @Column(nullable = true, length = 11)
+    private String telefone;
+
+    @Column(nullable = true)
+    private Double reputacao;
+
+    @Column(name = "chave_pix", nullable = true, unique = true)
+    private String chavePix;
+
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "foto_documento", nullable = true)
+    private Foto fotoDocumento;
+
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "foto_usuario", nullable = true)
+    private Foto fotoUsuario;
 
     public Usuario() {
     }
@@ -79,6 +107,62 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public LocalDate getNascimento() {
+        return nascimento;
+    }
+
+    public void setNascimento(LocalDate nascimento) {
+        this.nascimento = nascimento;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public Double getReputacao() {
+        return reputacao;
+    }
+
+    public void setReputacao(Double reputacao) {
+        this.reputacao = reputacao;
+    }
+
+    public String getChavePix() {
+        return chavePix;
+    }
+
+    public void setChavePix(String chavePix) {
+        this.chavePix = chavePix;
+    }
+
+    public Foto getFotoDocumento() {
+        return fotoDocumento;
+    }
+
+    public void setFotoDocumento(Foto fotoDocumento) {
+        this.fotoDocumento = fotoDocumento;
+    }
+
+    public Foto getFotoUsuario() {
+        return fotoUsuario;
+    }
+
+    public void setFotoUsuario(Foto fotoUsuario) {
+        this.fotoUsuario = fotoUsuario;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -106,7 +190,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario [email=" + email + ", id=" + id + ", nomeCompleto=" + nomeCompleto + ", senha=" + senha
-                + ", tipoUsuario=" + tipoUsuario + "]";
-    }    
+        return "Usuario [fotoUsuario=" + fotoUsuario + ", id=" + id + ", nascimento=" + nascimento + ", nomeCompleto="
+                + nomeCompleto + ", reputacao=" + reputacao + ", tipoUsuario=" + tipoUsuario + "]";
+    }   
 }

@@ -25,6 +25,17 @@ public class Foto {
     @Column(nullable = false)
     private String url;
 
+    public Foto() {
+    }
+
+    public Foto(Long id, String filename, Long contentLength, String contentType, String url) {
+        this.id = id;
+        this.filename = filename;
+        this.contentLength = contentLength;
+        this.contentType = contentType;
+        this.url = url;
+    }
+
     public Long getId() {
         return id;
     }
