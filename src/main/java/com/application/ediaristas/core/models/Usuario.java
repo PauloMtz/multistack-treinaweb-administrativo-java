@@ -1,6 +1,7 @@
 package com.application.ediaristas.core.models;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -55,6 +58,14 @@ public class Usuario {
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "foto_usuario", nullable = true)
     private Foto fotoUsuario;
+
+    @ManyToMany
+    @JoinTable(
+        name = "cidades_usuarios",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "cidade_id")
+    )
+    private List<CidadeAtendida> cidadesAtendidas;
 
     public Usuario() {
     }
@@ -161,6 +172,14 @@ public class Usuario {
 
     public void setFotoUsuario(Foto fotoUsuario) {
         this.fotoUsuario = fotoUsuario;
+    }
+
+    public List<CidadeAtendida> getCidadesAtendidas() {
+        return cidadesAtendidas;
+    }
+
+    public void setCidadesAtendidas(List<CidadeAtendida> cidadesAtendidas) {
+        this.cidadesAtendidas = cidadesAtendidas;
     }
 
     @Override
