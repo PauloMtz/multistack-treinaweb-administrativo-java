@@ -36,4 +36,10 @@ public class DiaristaLocalidadesPagedResponse {
     public void setQuantidadeDiaristasExcedentes(Long quantidadeDiaristasExcedentes) {
         this.quantidadeDiaristasExcedentes = quantidadeDiaristasExcedentes;
     }
+
+    @Override
+    public String toString() {
+        return "DiaristaLocalidadesPagedResponse [diaristas=" + diaristas + ", quantidadeDiaristasExcedentes="
+                + quantidadeDiaristasExcedentes + "]";
+    }
 }

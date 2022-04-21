@@ -1,13 +1,5 @@
 package com.application.ediaristas.api.services;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.IntFunction;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import com.application.ediaristas.api.dtos.responses.DiaristaLocalidadeResponse;
 import com.application.ediaristas.api.dtos.responses.DiaristaLocalidadesPagedResponse;
 import com.application.ediaristas.api.mappers.ApiDiaristaMapper;
 import com.application.ediaristas.core.models.Usuario;
@@ -17,7 +9,6 @@ import com.application.ediaristas.core.services.consultaendereco.adapters.Endere
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;  
 
 @Service

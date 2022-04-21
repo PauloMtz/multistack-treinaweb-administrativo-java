@@ -1,11 +1,13 @@
 package com.application.ediaristas.api.dtos.responses;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+@JsonNaming(SnakeCaseStrategy.class)
 public class DiaristaLocalidadeResponse {
     
     private String nomeCompleto;
     private Double reputacao;
-    // na classe de domínio, essa fotoUsuario é do tipo Foto
-    // essa conversão será feita na ApiDiaristaMapper
     private String fotoUsuario;
     private String cidade;
 
@@ -18,7 +20,7 @@ public class DiaristaLocalidadeResponse {
         this.fotoUsuario = fotoUsuario;
         this.cidade = cidade;
     }
-
+    
     public String getNomeCompleto() {
         return nomeCompleto;
     }
@@ -49,5 +51,11 @@ public class DiaristaLocalidadeResponse {
 
     public void setCidade(String cidade) {
         this.cidade = cidade;
-    }    
+    }
+
+    @Override
+    public String toString() {
+        return "DiaristaLocalidadeResponse [cidade=" + cidade + ", fotoUsuario=" + fotoUsuario + ", nomeCompleto="
+                + nomeCompleto + ", reputacao=" + reputacao + "]";
+    }
 }
