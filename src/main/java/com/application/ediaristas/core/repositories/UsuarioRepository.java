@@ -16,6 +16,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     //List<Usuario> findByCidadesAtendidasCodigoIbge(String codigoIbge);
 
+    Boolean existsByCidadesAtendidasCodigoIbge(String codigoIbge);
+
     Page<Usuario> findByCidadesAtendidasCodigoIbge(String codigoIbge, Pageable pageable); // ...domain.Pageable
 
     @Query("SELECT COUNT(*) > 0 FROM Usuario u WHERE u.email = :email AND (:id IS NULL OR u.id != :id)")

@@ -4,17 +4,17 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(SnakeCaseStrategy.class)
-public class DiaristaLocalidadeResponse {
+public class DiaristaLocalidadeResponseDto {
     
     private String nomeCompleto;
     private Double reputacao;
     private String fotoUsuario;
     private String cidade;
 
-    public DiaristaLocalidadeResponse() {
+    public DiaristaLocalidadeResponseDto() {
     }
 
-    public DiaristaLocalidadeResponse(String nomeCompleto, Double reputacao, String fotoUsuario, String cidade) {
+    public DiaristaLocalidadeResponseDto(String nomeCompleto, Double reputacao, String fotoUsuario, String cidade) {
         this.nomeCompleto = nomeCompleto;
         this.reputacao = reputacao;
         this.fotoUsuario = fotoUsuario;
@@ -55,7 +55,7 @@ public class DiaristaLocalidadeResponse {
 
     @Override
     public String toString() {
-        return "DiaristaLocalidadeResponse [cidade=" + cidade + ", fotoUsuario=" + fotoUsuario + ", nomeCompleto="
+        return "DiaristaLocalidadeResponseDTO [cidade=" + cidade + ", fotoUsuario=" + fotoUsuario + ", nomeCompleto="
                 + nomeCompleto + ", reputacao=" + reputacao + "]";
     }
 }

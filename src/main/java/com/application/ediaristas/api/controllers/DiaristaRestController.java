@@ -1,6 +1,7 @@
 package com.application.ediaristas.api.controllers;
 
-import com.application.ediaristas.api.dtos.responses.DiaristaLocalidadesPagedResponse;
+import com.application.ediaristas.api.dtos.responses.DiaristaLocalidadesPagedResponseDto;
+import com.application.ediaristas.api.dtos.responses.DisponibilidadeResponseDto;
 import com.application.ediaristas.api.services.ApiDiaristaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,16 @@ public class DiaristaRestController {
     private ApiDiaristaService service;
 
     @GetMapping("/localidades")
-    public DiaristaLocalidadesPagedResponse buscarDiaristasPorCep(@RequestParam String cep) {
+    public DiaristaLocalidadesPagedResponseDto buscarDiaristasPorCep(
+        @RequestParam(required = false) String cep) {
 
         return service.buscarDiaristasPorCep(cep);
+    }
+
+    @GetMapping("/disponibilidade")
+    public DisponibilidadeResponseDto verificarDisponibilidadePorCep(
+        @RequestParam(required = false) String cep) {
+        
+        return service.verificaDisponibilidadePorCep(cep);
     }
 }

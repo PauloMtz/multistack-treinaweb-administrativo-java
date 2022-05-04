@@ -7,25 +7,25 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(SnakeCaseStrategy.class)
-public class DiaristaLocalidadesPagedResponse {
+public class DiaristaLocalidadesPagedResponseDto {
     
-    private List<DiaristaLocalidadeResponse> diaristas;
+    private List<DiaristaLocalidadeResponseDto> diaristas;
 
     //@JsonProperty("quantidade_excedente")
     private Long quantidadeDiaristasExcedentes;
 
-    public DiaristaLocalidadesPagedResponse(
-            List<DiaristaLocalidadeResponse> diaristas,
+    public DiaristaLocalidadesPagedResponseDto(
+            List<DiaristaLocalidadeResponseDto> diaristas,
             Integer tamanhoPagina, Long totalElementos) {
         this.diaristas = diaristas;
         this.quantidadeDiaristasExcedentes = totalElementos > tamanhoPagina ? totalElementos - tamanhoPagina : 0;
     }
 
-    public List<DiaristaLocalidadeResponse> getDiaristas() {
+    public List<DiaristaLocalidadeResponseDto> getDiaristas() {
         return diaristas;
     }
 
-    public void setDiaristas(List<DiaristaLocalidadeResponse> diaristas) {
+    public void setDiaristas(List<DiaristaLocalidadeResponseDto> diaristas) {
         this.diaristas = diaristas;
     }
 

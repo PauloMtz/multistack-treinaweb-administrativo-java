@@ -1,6 +1,6 @@
 package com.application.ediaristas.api.mappers;
 
-import com.application.ediaristas.api.dtos.responses.DiaristaLocalidadeResponse;
+import com.application.ediaristas.api.dtos.responses.DiaristaLocalidadeResponseDto;
 import com.application.ediaristas.core.models.Usuario;
 
 import org.mapstruct.Mapper;
@@ -15,5 +15,5 @@ public interface ApiDiaristaMapper {
     // método de conversão, que vai retornar diarista localidade
     // converte a String da classe dto para o tipo Foto
     @Mapping(target = "fotoUsuario", source = "fotoUsuario.url")
-    DiaristaLocalidadeResponse toDiaristaLocalidadeResponse(Usuario model);
+    DiaristaLocalidadeResponseDto toDiaristaLocalidadeResponse(Usuario model);
 }
