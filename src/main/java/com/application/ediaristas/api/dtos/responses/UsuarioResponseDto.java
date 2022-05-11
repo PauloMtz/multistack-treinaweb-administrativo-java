@@ -1,74 +1,43 @@
-package com.application.ediaristas.api.dtos.requests;
+package com.application.ediaristas.api.dtos.responses;
 
 import java.time.LocalDate;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
 @JsonNaming(SnakeCaseStrategy.class)
-public class UsuarioRequestDto {
+public class UsuarioResponseDto {
     
-    @NotNull
-    @Size(min = 3, max = 100)
+    private Long id;
     private String nomeCompleto;
-
-    @NotNull
-    @Size(max = 100)
-    @Email
     private String email;
-
-    @NotNull
-    @NotEmpty
-    private String password;
-
-    @NotNull
-    @NotEmpty
-    private String passwordConfirmation;
-
-    @NotNull
     private Integer tipoUsuario;
-
-    @NotNull
-    @Size(min = 11, max = 11)
-    @CPF
     private String cpf;
-
-    @NotNull
-    @Past
-    @DateTimeFormat(iso = ISO.DATE)
     private LocalDate nascimento;
-
-    @NotNull
-    @Size(min = 11, max = 11)
     private String telefone;
-
-    @Size(min = 11, max = 100)
     private String chavePix;
 
-    public UsuarioRequestDto() {
+    public UsuarioResponseDto() {
     }
-
-    public UsuarioRequestDto(String nomeCompleto, String email, String password, String passwordConfirmation,
-            Integer tipoUsuario, String cpf, LocalDate nascimento, String telefone, String chavePix) {
+    
+    public UsuarioResponseDto(Long id, String nomeCompleto, String email, Integer tipoUsuario, String cpf,
+            LocalDate nascimento, String telefone, String chavePix) {
+        this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.email = email;
-        this.password = password;
-        this.passwordConfirmation = passwordConfirmation;
         this.tipoUsuario = tipoUsuario;
         this.cpf = cpf;
         this.nascimento = nascimento;
         this.telefone = telefone;
         this.chavePix = chavePix;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNomeCompleto() {
@@ -85,22 +54,6 @@ public class UsuarioRequestDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPasswordConfirmation() {
-        return passwordConfirmation;
-    }
-
-    public void setPasswordConfirmation(String passwordConfirmation) {
-        this.passwordConfirmation = passwordConfirmation;
     }
 
     public Integer getTipoUsuario() {
@@ -141,5 +94,5 @@ public class UsuarioRequestDto {
 
     public void setChavePix(String chavePix) {
         this.chavePix = chavePix;
-    } 
+    }
 }

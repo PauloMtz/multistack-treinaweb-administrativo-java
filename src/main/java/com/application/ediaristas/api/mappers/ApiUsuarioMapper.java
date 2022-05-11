@@ -3,6 +3,7 @@ package com.application.ediaristas.api.mappers;
 import java.util.stream.Stream;
 
 import com.application.ediaristas.api.dtos.requests.UsuarioRequestDto;
+import com.application.ediaristas.api.dtos.responses.UsuarioResponseDto;
 import com.application.ediaristas.core.models.TipoUsuario;
 import com.application.ediaristas.core.models.Usuario;
 
@@ -18,6 +19,9 @@ public interface ApiUsuarioMapper {
     // o campo 'senha' lá de /core/models/Usuario recebe 'password' de UsuarioRequestDto
     @Mapping(target = "senha", source = "password")
     Usuario usuarioToModel(UsuarioRequestDto request);
+
+    @Mapping(target = "tipoUsuario", source = "tipoUsuario.id")
+    UsuarioResponseDto usuarioToResponseDto(Usuario model);
 
     default TipoUsuario integerToTipoUsuario(Integer valor) {
         /*if (valor == 1) {
