@@ -24,6 +24,12 @@ public class UsuarioRestController {
     @PostMapping("/usuarios")
     @ResponseStatus(code = HttpStatus.CREATED)
     public UsuarioResponseDto cadastrar(@RequestBody @Valid UsuarioRequestDto request) {
+        /*
+            insert into usuario (chave_pix, cpf, email, foto_documento, 
+                foto_usuario, nascimento, nome_completo, reputacao, 
+                senha, telefone, tipo_usuario) 
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        */
         return service.cadastrar(request);
     }
 }

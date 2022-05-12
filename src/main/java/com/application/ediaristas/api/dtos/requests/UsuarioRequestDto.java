@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import com.application.ediaristas.core.annotations.Idade;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
@@ -45,6 +46,7 @@ public class UsuarioRequestDto {
 
     @NotNull
     @Past
+    @Idade(min = 18, max = 100)
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate nascimento;
 
