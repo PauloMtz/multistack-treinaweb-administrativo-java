@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.application.ediaristas.api.dtos.responses.ErrorResponseDto;
+import com.application.ediaristas.core.exceptions.ValidacaoException;
 import com.application.ediaristas.core.services.consultaendereco.exceptions.EnderecoServiceException;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 
@@ -38,6 +39,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             .build();
 
         return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(ValidacaoException.class)
+    public ResponseEntity<Object> handleValidationException(ValidacaoException exception) {
+        var body = new HashMap<String, List<String>>();
+        var fieldError = exception.getFieldError();
+        var fieldErrors = new ArrayList<String>();
+        fieldErrors.add(fieldError.getDefaultMessage());
+        var field = camelCaseToSnakeCase.translate(fieldError.getField());
+        body.put(field, fieldErrors);
+        return ResponseEntity.badRequest().body(body);
     }
 
     @Override

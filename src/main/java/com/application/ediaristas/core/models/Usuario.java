@@ -211,5 +211,17 @@ public class Usuario {
     public String toString() {
         return "Usuario [fotoUsuario=" + fotoUsuario + ", id=" + id + ", nascimento=" + nascimento + ", nomeCompleto="
                 + nomeCompleto + ", reputacao=" + reputacao + ", tipoUsuario=" + tipoUsuario + "]";
-    }   
+    }
+
+    public Boolean isDiarista() {
+        return tipoUsuario.equals(TipoUsuario.DIARISTA);
+    }
+
+    public Boolean isCliente() {
+        return tipoUsuario.equals(TipoUsuario.CLIENTE);
+    }
+
+    public Boolean isAdmin() {
+        return tipoUsuario.equals(TipoUsuario.ADMIN);
+    }
 }

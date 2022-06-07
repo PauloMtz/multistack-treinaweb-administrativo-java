@@ -133,7 +133,7 @@ public class WebUsuarioService {
 
     private void validarEmailUnico(Usuario usuario) {
 
-        if (usuarioRepository.isEmailJaCadastrado(usuario.getEmail(), usuario.getId())) {
+        if (usuarioRepository.isEmailJaCadastrado(usuario)) {
             var mensagem = "Este e-mail já está cadastrado na base de dados.";
             var fieldError = new FieldError(usuario.getClass().getName(),
                 "email", usuario.getEmail(), false, null, null, mensagem);
