@@ -2,6 +2,7 @@ package com.application.ediaristas.core.validators;
 
 import com.application.ediaristas.core.exceptions.EmailJaCadastradoException;
 import com.application.ediaristas.core.exceptions.UsuarioJaCadastradoException;
+import com.application.ediaristas.core.exceptions.ValidacaoException;
 import com.application.ediaristas.core.models.Usuario;
 import com.application.ediaristas.core.repositories.UsuarioRepository;
 
@@ -56,7 +57,7 @@ public class UsuarioValidator {
             var mensagem = "Diarista precisa ter uma chave Pix.";
             var fieldError = new FieldError(usuario.getClass().getName(),
                 "chavePix", usuario.getChavePix(), false, null, null, mensagem);
-            throw new UsuarioJaCadastradoException(mensagem, fieldError);
+            throw new ValidacaoException(mensagem, fieldError);
         }
     }
 }
