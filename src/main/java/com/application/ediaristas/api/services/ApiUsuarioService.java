@@ -5,6 +5,7 @@ import com.application.ediaristas.api.dtos.responses.UsuarioResponseDto;
 import com.application.ediaristas.api.mappers.ApiUsuarioMapper;
 import com.application.ediaristas.core.exceptions.SenhasNaoConferemException;
 import com.application.ediaristas.core.repositories.UsuarioRepository;
+import com.application.ediaristas.core.services.storage.adapters.StorageServiceAdapter;
 import com.application.ediaristas.core.validators.UsuarioValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class ApiUsuarioService {
     @Autowired
     private UsuarioValidator validator;
 
+    @Autowired
+    private StorageServiceAdapter adapter;
+
     public UsuarioResponseDto cadastrar(UsuarioRequestDto request) {
         validarConfirmacaoSenha(request);
         
@@ -35,6 +39,9 @@ public class ApiUsuarioService {
 
         var encoderSenha = encoder.encode(usuarioParaCadastro.getSenha());
         usuarioParaCadastro.setSenha(encoderSenha);
+
+        var fotoDocumento = adapter.salvar(request.getFotoDocumento());
+        usuarioParaCadastro.setFotoDocumento(fotoDocumento);
         
         var usuarioCadastrar = repository.save(usuarioParaCadastro);
         return mapper.usuarioToResponseDto(usuarioCadastrar);

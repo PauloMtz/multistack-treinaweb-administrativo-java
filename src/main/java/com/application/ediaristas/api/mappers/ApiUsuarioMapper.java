@@ -18,6 +18,7 @@ public interface ApiUsuarioMapper {
 
     // o campo 'senha' lá de /core/models/Usuario recebe 'password' de UsuarioRequestDto
     @Mapping(target = "senha", source = "password")
+    @Mapping(target = "fotoDocumento", ignore = true)
     Usuario usuarioToModel(UsuarioRequestDto request);
 
     @Mapping(target = "tipoUsuario", source = "tipoUsuario.id")

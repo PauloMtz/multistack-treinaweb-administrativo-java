@@ -8,8 +8,8 @@ import com.application.ediaristas.api.services.ApiUsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +23,7 @@ public class UsuarioRestController {
 
     @PostMapping("/usuarios")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public UsuarioResponseDto cadastrar(@RequestBody @Valid UsuarioRequestDto request) {
+    public UsuarioResponseDto cadastrar(@ModelAttribute @Valid UsuarioRequestDto request) {
         /*
             insert into usuario (chave_pix, cpf, email, foto_documento, 
                 foto_usuario, nascimento, nome_completo, reputacao, 

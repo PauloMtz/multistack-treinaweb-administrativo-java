@@ -9,16 +9,14 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import com.application.ediaristas.core.annotations.Idade;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.web.multipart.MultipartFile;
 
-@JsonNaming(SnakeCaseStrategy.class)
 public class UsuarioRequestDto {
-    
+
     @NotNull
     @Size(min = 3, max = 100)
     private String nomeCompleto;
@@ -57,11 +55,18 @@ public class UsuarioRequestDto {
     @Size(min = 11, max = 100)
     private String chavePix;
 
+    @NotNull
+    private MultipartFile fotoDocumento;
+
     public UsuarioRequestDto() {
     }
 
-    public UsuarioRequestDto(String nomeCompleto, String email, String password, String passwordConfirmation,
-            Integer tipoUsuario, String cpf, LocalDate nascimento, String telefone, String chavePix) {
+    public UsuarioRequestDto(@NotNull @Size(min = 3, max = 100) String nomeCompleto,
+            @NotNull @Size(max = 100) @Email String email, @NotNull @NotEmpty String password,
+            @NotNull @NotEmpty String passwordConfirmation, @NotNull Integer tipoUsuario,
+            @NotNull @Size(min = 11, max = 11) @CPF String cpf, @NotNull @Past LocalDate nascimento,
+            @NotNull @Size(min = 11, max = 11) String telefone, @Size(min = 11, max = 100) String chavePix,
+            MultipartFile fotoDocumento) {
         this.nomeCompleto = nomeCompleto;
         this.email = email;
         this.password = password;
@@ -71,6 +76,7 @@ public class UsuarioRequestDto {
         this.nascimento = nascimento;
         this.telefone = telefone;
         this.chavePix = chavePix;
+        this.fotoDocumento = fotoDocumento;
     }
 
     public String getNomeCompleto() {
@@ -143,5 +149,33 @@ public class UsuarioRequestDto {
 
     public void setChavePix(String chavePix) {
         this.chavePix = chavePix;
-    } 
+    }
+
+    public MultipartFile getFotoDocumento() {
+        return fotoDocumento;
+    }
+
+    public void setFotoDocumento(MultipartFile fotoDocumento) {
+        this.fotoDocumento = fotoDocumento;
+    }
+
+    public void setNome_completo(String nomeCompleto) {
+        setNomeCompleto(nomeCompleto);
+    }
+
+    public void setPassword_confirmation(String passwordConfirmation) {
+        setPasswordConfirmation(passwordConfirmation);
+    }
+
+    public void setTipo_usuario(Integer tipoUsuario) {
+        setTipoUsuario(tipoUsuario);
+    }
+
+    public void setChave_pix(String chavePix) {
+        setChavePix(chavePix);
+    }
+
+    public void setFoto_documento(MultipartFile fotoDocumento) {
+        setFotoDocumento(fotoDocumento);
+    }
 }
