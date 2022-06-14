@@ -42,6 +42,16 @@ public class ApiUsuarioService {
 
         var fotoDocumento = adapter.salvar(request.getFotoDocumento());
         usuarioParaCadastro.setFotoDocumento(fotoDocumento);
+
+        if (usuarioParaCadastro.isDiarista()) {
+            var reputacaoMedia = repository.getMediaReputacaoDiarista();
+
+            if (reputacaoMedia == null || reputacaoMedia == 0.0) {
+                reputacaoMedia = 5.0;
+            }
+            
+            usuarioParaCadastro.setReputacao(reputacaoMedia);
+        }
         
         var usuarioCadastrar = repository.save(usuarioParaCadastro);
         return mapper.usuarioToResponseDto(usuarioCadastrar);
