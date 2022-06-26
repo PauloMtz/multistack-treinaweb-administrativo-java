@@ -4,13 +4,10 @@ import com.application.ediaristas.api.dtos.requests.UsuarioRequestDto;
 import com.application.ediaristas.api.dtos.responses.UsuarioResponseDto;
 import com.application.ediaristas.api.mappers.ApiUsuarioMapper;
 import com.application.ediaristas.core.exceptions.SenhasNaoConferemException;
+import com.application.ediaristas.core.publishers.NovoUsuarioPublisher;
 import com.application.ediaristas.core.repositories.UsuarioRepository;
-import com.application.ediaristas.core.services.email.adapters.EmailServiceAdapter;
-import com.application.ediaristas.core.services.email.dtos.EmailServiceParamsDto;
 import com.application.ediaristas.core.services.storage.adapters.StorageServiceAdapter;
 import com.application.ediaristas.core.validators.UsuarioValidator;
-
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,7 +33,7 @@ public class ApiUsuarioService {
     private StorageServiceAdapter adapter;
 
     @Autowired
-    private EmailServiceAdapter emailAdapter;
+    private NovoUsuarioPublisher publisher;
 
     public UsuarioResponseDto cadastrar(UsuarioRequestDto request) {
         validarConfirmacaoSenha(request);
@@ -62,19 +59,7 @@ public class ApiUsuarioService {
         
         var usuarioCadastrar = repository.save(usuarioParaCadastro);
 
-        if (usuarioCadastrar.isCliente() || usuarioCadastrar.isDiarista()) {
-            var props = new HashMap<String, Object>();
-            props.put("nomeUsuario", usuarioCadastrar.getNomeCompleto());
-            props.put("tipoUsuario", usuarioCadastrar.getTipoUsuario().toString()); // toString ou name
-
-            var emailParams = new EmailServiceParamsDto();
-            emailParams.setDestinatario(usuarioCadastrar.getEmail());
-            emailParams.setAssunto("Cadastro realizado com sucesso");
-            emailParams.setTemplate("emails/boas-vindas");
-            emailParams.setProps(props);
-
-            emailAdapter.enviarEmailComTemplateHtml(emailParams);
-        }
+        publisher.publicarEvento(usuarioCadastrar);
 
         return mapper.usuarioToResponseDto(usuarioCadastrar);
     }
