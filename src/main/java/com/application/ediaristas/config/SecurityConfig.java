@@ -1,5 +1,6 @@
 package com.application.ediaristas.config;
 
+import com.application.ediaristas.core.filters.AccessTokenRequestFilter;
 import com.application.ediaristas.core.models.TipoUsuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 //@Configuration
@@ -27,6 +29,9 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AccessTokenRequestFilter accessTokenFilter;
 
     // ---- configuração para a API ----
     // esse @Order é para informar a preferência na hora de subir a aplicação
@@ -59,6 +64,7 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
                     sessionManagementCustomizer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+                .addFilterBefore(accessTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors();
         }
 

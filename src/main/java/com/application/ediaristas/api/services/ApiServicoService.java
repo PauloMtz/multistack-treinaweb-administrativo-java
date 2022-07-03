@@ -1,6 +1,5 @@
 package com.application.ediaristas.api.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.application.ediaristas.api.dtos.responses.ServicoResponseDto;
