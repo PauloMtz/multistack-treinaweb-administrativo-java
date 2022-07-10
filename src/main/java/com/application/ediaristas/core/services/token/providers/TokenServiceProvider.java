@@ -18,7 +18,7 @@ public class TokenServiceProvider implements TokenServiceAdapter {
     public String gerarTokenAcesso(String subject) {
         var claims = new HashMap<String, Object>();
         var dataHoraAtual = Instant.now();
-        var dataHoraExpiracao = dataHoraAtual.plusSeconds(30);// 30segundos
+        var dataHoraExpiracao = dataHoraAtual.plusSeconds(60);// segundos
 
         return Jwts.builder()
                 .setClaims(claims)
