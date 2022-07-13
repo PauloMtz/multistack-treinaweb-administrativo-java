@@ -18,6 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -34,6 +36,14 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
 
     @Autowired
     private AccessTokenRequestFilter accessTokenFilter;
+
+    // em /api/handlers --> TokenAuthenticationEntryPoint
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
+
+    // idem
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
     // ---- configuração para a API ----
     // esse @Order é para informar a preferência na hora de subir a aplicação
@@ -67,7 +77,12 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .addFilterBefore(accessTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .cors();
+                .exceptionHandling(exceptionHandlingCustomizer ->
+                    exceptionHandlingCustomizer
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
+                )
+                .cors(); // essas exceções acontecem no filter - antes do controller
         }
 
         @Bean

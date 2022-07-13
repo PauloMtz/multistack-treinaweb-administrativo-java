@@ -1,6 +1,7 @@
 package com.application.ediaristas.core.filters;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +17,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.application.ediaristas.api.dtos.responses.ErrorResponseDto;
 import com.application.ediaristas.core.services.token.adapters.TokenServiceAdapter;
+import com.application.ediaristas.core.services.token.exceptions.TokenServiceException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class AccessTokenRequestFilter extends OncePerRequestFilter {
@@ -28,6 +33,9 @@ public class AccessTokenRequestFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     protected void doFilterInternal(
         HttpServletRequest request, 
@@ -35,6 +43,30 @@ public class AccessTokenRequestFilter extends OncePerRequestFilter {
         FilterChain filterChain
     ) throws ServletException, IOException {
         
+        // seleciona o código - clica na lâmpada - extract to method
+        try {
+            tryDoFilterInternal(request, response, filterChain);
+        } catch (TokenServiceException exception) {
+            var statusHttp = HttpStatus.UNAUTHORIZED;
+
+            var errorResponse = new ErrorResponseDto.Builder()
+                    .status(statusHttp.value())
+                    .timestamp(LocalDateTime.now())
+                    .mensagem(exception.getLocalizedMessage())
+                    .path(request.getRequestURI())
+                    .build();
+
+            var json = objectMapper.writeValueAsString(errorResponse);
+
+            response.setStatus(statusHttp.value());
+            response.setHeader("Content-Type", "application/json");
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().write(json);
+        }
+    }
+
+    private void tryDoFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws IOException, ServletException {
         var token = "";
         var email = "";
 
