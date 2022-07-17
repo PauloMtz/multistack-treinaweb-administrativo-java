@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.application.ediaristas.api.dtos.responses.ErrorResponseDto;
 import com.application.ediaristas.core.exceptions.ValidacaoException;
 import com.application.ediaristas.core.services.consultaendereco.exceptions.EnderecoServiceException;
+import com.application.ediaristas.core.services.token.exceptions.TokenServiceException;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 
 import org.springframework.http.HttpHeaders;
@@ -39,6 +40,22 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             .build();
 
         return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(TokenServiceException.class)
+    public ResponseEntity<Object> handleTokenServiceException(
+        TokenServiceException exception, HttpServletRequest request) {
+        
+            var status = HttpStatus.UNAUTHORIZED;
+
+            var errorResponse = new ErrorResponseDto.Builder()
+                .status(status.value())
+                .timestamp(LocalDateTime.now())
+                .mensagem(exception.getLocalizedMessage())
+                .path(request.getRequestURI())
+                .build();
+
+            return new ResponseEntity<Object>(errorResponse, status);
     }
 
     @ExceptionHandler(ValidacaoException.class)
