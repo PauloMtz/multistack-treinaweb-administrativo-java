@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.application.ediaristas.api.dtos.responses.ErrorResponseDto;
+import com.application.ediaristas.core.exceptions.TokenBlackListException;
 import com.application.ediaristas.core.exceptions.ValidacaoException;
 import com.application.ediaristas.core.services.consultaendereco.exceptions.EnderecoServiceException;
 import com.application.ediaristas.core.services.token.exceptions.TokenServiceException;
@@ -40,6 +41,22 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             .build();
 
         return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(TokenBlackListException.class)
+    public ResponseEntity<Object> handleTokenBlackListException(
+        TokenBlackListException exception, HttpServletRequest request) {
+        
+            var status = HttpStatus.UNAUTHORIZED;
+
+            var errorResponse = new ErrorResponseDto.Builder()
+                .status(status.value())
+                .timestamp(LocalDateTime.now())
+                .mensagem(exception.getLocalizedMessage())
+                .path(request.getRequestURI())
+                .build();
+
+            return new ResponseEntity<Object>(errorResponse, status);
     }
 
     @ExceptionHandler(TokenServiceException.class)

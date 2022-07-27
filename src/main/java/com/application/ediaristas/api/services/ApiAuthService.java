@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.application.ediaristas.api.dtos.requests.RefreshRequestDto;
 import com.application.ediaristas.api.dtos.requests.TokenRequestDto;
 import com.application.ediaristas.api.dtos.responses.TokenResponseDto;
+import com.application.ediaristas.core.services.TokenBlackListService;
 import com.application.ediaristas.core.services.token.adapters.TokenServiceAdapter;
 
 @Service
@@ -22,6 +23,9 @@ public class ApiAuthService {
 
     @Autowired
     private AuthenticationManager authManager;
+
+    @Autowired
+    private TokenBlackListService tokenBlackListService;
 
     public TokenResponseDto autenticar(TokenRequestDto request) {
         var email = request.getEmail();
@@ -37,11 +41,18 @@ public class ApiAuthService {
     }
 
     public TokenResponseDto reAutenticar(RefreshRequestDto refreshRequest) {
-        var email = tokenAdapter.getSubjectDoRefreshToken(refreshRequest.getRefresh());
+        var token = refreshRequest.getRefresh();
+        tokenBlackListService.verificaToken(token); // se o token estiver na black list, gera exceção
+
+        //var email = tokenAdapter.getSubjectDoRefreshToken(refreshRequest.getRefresh());
+        var email = tokenAdapter.getSubjectDoRefreshToken(token);
         userDetailsService.loadUserByUsername(email);
         
         var acesso = tokenAdapter.gerarTokenAcesso(email);
         var refresh = tokenAdapter.gerarRefreshToken(email);
+
+        // depois de gerar o refresh, colocar token na blacklist
+        tokenBlackListService.colocaTokenBlackList(token);
         
         return new TokenResponseDto(acesso, refresh);
     }
