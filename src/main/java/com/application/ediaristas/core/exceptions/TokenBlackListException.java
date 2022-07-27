@@ -3,7 +3,7 @@ package com.application.ediaristas.core.exceptions;
 public class TokenBlackListException extends RuntimeException {
 
     public TokenBlackListException() {
-        super("Token invalidado.");
+        super("Este token já não é mais válido.");
     }
 
     public TokenBlackListException(String message) {
