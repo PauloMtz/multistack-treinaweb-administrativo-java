@@ -3,6 +3,7 @@ package com.application.ediaristas.api.mappers;
 import java.util.stream.Stream;
 
 import com.application.ediaristas.api.dtos.requests.UsuarioRequestDto;
+import com.application.ediaristas.api.dtos.responses.UsuarioCadastroResponseDto;
 import com.application.ediaristas.api.dtos.responses.UsuarioResponseDto;
 import com.application.ediaristas.core.models.TipoUsuario;
 import com.application.ediaristas.core.models.Usuario;
@@ -23,6 +24,9 @@ public interface ApiUsuarioMapper {
 
     @Mapping(target = "tipoUsuario", source = "tipoUsuario.id")
     UsuarioResponseDto usuarioToResponseDto(Usuario model);
+
+    @Mapping(target = "tipoUsuario", source = "tipoUsuario.id")
+    UsuarioCadastroResponseDto usuarioToCadastroResponseDto(Usuario model);
 
     default TipoUsuario integerToTipoUsuario(Integer valor) {
         /*if (valor == 1) {
