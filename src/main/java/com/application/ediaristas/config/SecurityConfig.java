@@ -1,7 +1,7 @@
 package com.application.ediaristas.config;
 
+import com.application.ediaristas.core.enums.TipoUsuario;
 import com.application.ediaristas.core.filters.AccessTokenRequestFilter;
-import com.application.ediaristas.core.models.TipoUsuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,10 +23,10 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-//@Configuration
+
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true) // habilita anotação no MeRestController
-public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
+public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -50,6 +50,7 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
     @Order(1)
     @Configuration
     public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
+
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth.userDetailsService(userDetailsService)
@@ -123,7 +124,7 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
             )
             .formLogin(formLoginCustomizer -> 
                 formLoginCustomizer
-                    .loginPage("/admin/auth/login")
+                    .loginPage("/admin/login")
                     .usernameParameter("email")
                     .passwordParameter("senha")
                     .defaultSuccessUrl("/admin/servicos")
@@ -149,42 +150,8 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
         @Override
         public void configure(WebSecurity web) throws Exception {
             web.ignoring()
-                .antMatchers("/webjars/**");
+                .antMatchers("/webjars/**")
+                .antMatchers("/img/**");
         }
     }
-
-    /**
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .antMatchers("/uploads").permitAll()
-            .antMatchers("/api/**").permitAll()
-            .antMatchers("/auth/**").permitAll()
-            .antMatchers("/admin/**").hasAuthority(TipoUsuario.ADMIN.toString())
-            .antMatchers("/img/**").permitAll()
-            .antMatchers("/css/**").permitAll()
-            .anyRequest().authenticated();
-
-        http.formLogin()
-            .loginPage("/admin/login")
-            .usernameParameter("email")
-            .passwordParameter("senha")
-            .defaultSuccessUrl("/admin/servicos")
-            .permitAll();
-
-        http.logout()
-            //.logoutUrl("/admin/logout");
-            .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
-            .logoutSuccessUrl("/admin/login");
-
-        http.rememberMe()
-            .rememberMeParameter("lembrar-me")
-            .tokenValiditySeconds(rememberMeValiditySeconds)
-            .key(rememberMeKey);
-
-        http.cors();
-        http.csrf()
-            .ignoringAntMatchers("/api/**")
-            .ignoringAntMatchers("/auth/**");
-    }*/
 }

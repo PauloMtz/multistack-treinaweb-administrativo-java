@@ -1,4 +1,4 @@
-package com.application.ediaristas.core.models;
+package com.application.ediaristas.core.enums;
 
 public enum TipoUsuario {
 

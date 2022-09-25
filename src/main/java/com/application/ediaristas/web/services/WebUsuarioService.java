@@ -2,11 +2,11 @@ package com.application.ediaristas.web.services;
 
 import java.util.List;
 
+import com.application.ediaristas.core.enums.TipoUsuario;
 import com.application.ediaristas.core.exceptions.EmailJaCadastradoException;
 import com.application.ediaristas.core.exceptions.SenhaIncorretaException;
 import com.application.ediaristas.core.exceptions.SenhasNaoConferemException;
 import com.application.ediaristas.core.exceptions.UsuarioNaoEncontradoException;
-import com.application.ediaristas.core.models.TipoUsuario;
 import com.application.ediaristas.core.models.Usuario;
 import com.application.ediaristas.core.repositories.UsuarioRepository;
 import com.application.ediaristas.web.dtos.AlteraSenhaForm;

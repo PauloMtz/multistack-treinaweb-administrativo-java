@@ -16,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
+import com.application.ediaristas.core.enums.TipoUsuario;
+
 @Entity
 public class Usuario {
     

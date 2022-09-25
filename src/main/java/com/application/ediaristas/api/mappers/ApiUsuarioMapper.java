@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import com.application.ediaristas.api.dtos.requests.UsuarioRequestDto;
 import com.application.ediaristas.api.dtos.responses.UsuarioCadastroResponseDto;
 import com.application.ediaristas.api.dtos.responses.UsuarioResponseDto;
-import com.application.ediaristas.core.models.TipoUsuario;
+import com.application.ediaristas.core.enums.TipoUsuario;
 import com.application.ediaristas.core.models.Usuario;
 
 import org.mapstruct.Mapper;
