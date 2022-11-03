@@ -31,6 +31,9 @@ public class Servico {
     @Column(nullable = false)
     private BigDecimal comissao;
 
+    @Column(name = "porcentagem_comissao", nullable = false)
+    private BigDecimal porcentagemComissao;
+
     @Column(name = "horas_quarto", nullable = false)
     private Integer horasQuarto;
 
@@ -151,6 +154,14 @@ public class Servico {
 
     public void setComissao(BigDecimal comissao) {
         this.comissao = comissao;
+    }
+
+    public BigDecimal getPorcentagemComissao() {
+        return porcentagemComissao;
+    }
+
+    public void setPorcentagemComissao(BigDecimal porcentagemComissao) {
+        this.porcentagemComissao = porcentagemComissao;
     }
 
     public Integer getHorasQuarto() {
