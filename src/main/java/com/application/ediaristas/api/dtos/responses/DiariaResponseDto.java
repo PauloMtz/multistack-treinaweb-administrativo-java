@@ -59,9 +59,7 @@ public class DiariaResponseDto extends HateoasResponseDto {
 
     private Long servico;
 
-    private UsuarioDiariaResponseDto cliente;
-
-    private UsuarioDiariaResponseDto diarista;
+    private ClienteResponseDto cliente;
 
     public DiariaResponseDto() {
     }
@@ -74,7 +72,7 @@ public class DiariaResponseDto extends HateoasResponseDto {
             Integer quantidadeSalas, Integer quantidadeCozinhas, Integer quantidadeBanheiros,
             Integer quantidadeQuintais, Integer quantidadeOutros, String observacoes, 
             LocalDateTime createdAt, LocalDateTime updatedAt, Long servico, 
-            UsuarioDiariaResponseDto cliente, UsuarioDiariaResponseDto diarista) {
+            ClienteResponseDto cliente) {
         this.id = id;
         this.status = status;
         this.valorComissao = valorComissao;
@@ -100,7 +98,6 @@ public class DiariaResponseDto extends HateoasResponseDto {
         this.updatedAt = updatedAt;
         this.servico = servico;
         this.cliente = cliente;
-        this.diarista = diarista;
     }
 
     public Long getId() {
@@ -295,20 +292,12 @@ public class DiariaResponseDto extends HateoasResponseDto {
         this.servico = servico;
     }
 
-    public UsuarioDiariaResponseDto getCliente() {
+    public ClienteResponseDto getCliente() {
         return cliente;
     }
 
-    public void setCliente(UsuarioDiariaResponseDto cliente) {
+    public void setCliente(ClienteResponseDto cliente) {
         this.cliente = cliente;
-    }
-
-    public UsuarioDiariaResponseDto getDiarista() {
-        return diarista;
-    }
-
-    public void setDiarista(UsuarioDiariaResponseDto diarista) {
-        this.diarista = diarista;
     }
 
     @JsonIgnore
