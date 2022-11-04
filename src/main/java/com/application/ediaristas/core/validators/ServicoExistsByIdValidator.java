@@ -9,16 +9,19 @@ import org.springframework.stereotype.Component;
 import com.application.ediaristas.core.repositories.ServicoRepository;
 
 @Component
-public class ServicoExistsByIdValidator implements ConstraintValidator<ServicoExistsById, Long> {
+public class ServicoExistsByIdValidator 
+    implements ConstraintValidator<ServicoExistsById, Long> {
 
     @Autowired
     private ServicoRepository servicoRepository;
 
     @Override
     public boolean isValid(Long value, ConstraintValidatorContext context) {
+
         if (value == null) {
             return true;
         }
+        
         return servicoRepository.existsById(value);
     }
 

@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class HoraDepoisDeValidator implements ConstraintValidator<HoraDepoisDe, LocalDateTime> {
+public class HoraDepoisDeValidator implements ConstraintValidator<HoraDepoisDe, 
+    LocalDateTime> {
 
     private int horaInicio;
 

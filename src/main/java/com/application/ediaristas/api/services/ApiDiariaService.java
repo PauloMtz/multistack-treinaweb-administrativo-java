@@ -12,6 +12,7 @@ import com.application.ediaristas.core.enums.DiariaStatus;
 import com.application.ediaristas.core.models.Diaria;
 import com.application.ediaristas.core.repositories.DiariaRepository;
 import com.application.ediaristas.core.utils.SecurityUtils;
+import com.application.ediaristas.core.validators.DiariaValidator;
 
 @Service
 public class ApiDiariaService {
@@ -25,11 +26,17 @@ public class ApiDiariaService {
     @Autowired
     private SecurityUtils securityUtils;
 
+    @Autowired
+    private DiariaValidator validator;
+
     public DiariaResponseDto cadastrar(DiariaRequestDto request) {
         var model = mapper.toModel(request);
         model.setValorComissao(calculaComissao(model));
         model.setCliente(securityUtils.getUsuarioLogado());
         model.setStatus(DiariaStatus.SEM_PAGAMENTO);
+
+        validator.validar(model);
+        
         var modelCadastrado = repository.save(model);
 
         return mapper.toResponse(modelCadastrado);
