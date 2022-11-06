@@ -1,5 +1,7 @@
 package com.application.ediaristas.core.validators;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 
@@ -41,6 +43,8 @@ public class DiariaValidator {
             
             throw new ValidacaoException(mensagem, fieldError);
         }
+
+        validarPreco(diaria);
     }
 
     private Integer calculaTempoTotal(Diaria diaria) {
@@ -56,5 +60,57 @@ public class DiariaValidator {
         tempoTotal += diaria.getQuantidadeOutros() * servico.getHorasOutros();
 
         return tempoTotal;
+    }
+
+    private void validarPreco(Diaria diaria) {
+        var preco = diaria.getPreco();
+        var valorTotal = calculaValorTotal(diaria);
+
+        if (preco.compareTo(valorTotal) != 0) {
+            var mensagem = "valores não correspondem";
+            var fieldError = new FieldError(diaria.getClass().getName(), "preco",
+                diaria.getPreco(), false, null, null, mensagem);
+            
+            throw new ValidacaoException(mensagem, fieldError);
+        }
+    }
+
+    private BigDecimal calculaValorTotal(Diaria diaria) {
+        var servico = diaria.getServico();
+        var valorMinimo = servico.getValorMinimo();
+
+        var valorQuarto = calculaValorComodo(servico.getValorQuarto(), diaria.getQuantidadeQuartos());
+        var valorSala = calculaValorComodo(servico.getValorSala(), diaria.getQuantidadeSalas());
+        var valorCozinha = calculaValorComodo(servico.getValorCozinha(), diaria.getQuantidadeCozinhas());
+        var valorBanheiro = calculaValorComodo(servico.getValorBanheiro(), diaria.getQuantidadeBanheiros());
+        var valorQuintal = calculaValorComodo(servico.getValorQuintal(), diaria.getQuantidadeQuintais());
+        var valorOutros = calculaValorComodo(servico.getValorOutros(), diaria.getQuantidadeOutros());
+
+        var valorTotal = valorQuarto.add(valorSala)
+            .add(valorCozinha).add(valorBanheiro)
+            .add(valorQuintal).add(valorOutros);
+
+        /*
+         * o método compareTo() pega o primeiro valor e subtrai o segndo
+         * se o primeiro valor for menor, retorna -1
+         * se for maior, retorna 1
+         * se for igual, retorna 0
+         */
+
+        if (valorTotal.compareTo(valorMinimo) < 0) {
+            return valorMinimo;
+        }
+
+        return valorTotal;
+    }
+
+    /*
+     * BigDecimal tem uma precisão maior que Double
+     * por isso, as boas práticas recomendam BigDecimal para valores monetários
+     * tem que utilizar os métodos da classe para fazer operações
+     */
+    
+    private BigDecimal calculaValorComodo(BigDecimal valorComodo, Integer qtdeComodos) {
+        return valorComodo.multiply(new BigDecimal(qtdeComodos));
     }
 }
