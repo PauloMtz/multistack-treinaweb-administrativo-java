@@ -1,6 +1,7 @@
 package com.application.ediaristas.core.validators;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -166,6 +167,21 @@ public class DiariaValidator {
             var mensagem = "não há diarista disponível para o CEP informado";
             var fieldError = new FieldError(diaria.getClass().getName(), "cep",
                 diaria.getCep(), false, null, null, mensagem);
+            
+            throw new ValidacaoException(mensagem, fieldError);
+        }
+
+        validaDataAtendimento(diaria);
+    }
+
+    private void validaDataAtendimento(Diaria diaria) {
+        var dataAtendimento = diaria.getDataAtendimento();
+        var dataMinimaAtendimento = LocalDateTime.now().plusHours(48);
+
+        if (dataAtendimento.isBefore(dataMinimaAtendimento)) {
+            var mensagem = "a data de atendimento precisa ter pelo menos 48 horas de antecedência";
+            var fieldError = new FieldError(diaria.getClass().getName(), "dataAtendimento",
+                diaria.getDataAtendimento(), false, null, null, mensagem);
             
             throw new ValidacaoException(mensagem, fieldError);
         }
