@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Mapper(componentModel = "spring", uses = ApiClienteMapper.class)
+@Mapper(componentModel = "spring", uses = ApiUsuarioDiariaMapper.class)
 public abstract class ApiDiariaMapper {
     
     @Autowired
