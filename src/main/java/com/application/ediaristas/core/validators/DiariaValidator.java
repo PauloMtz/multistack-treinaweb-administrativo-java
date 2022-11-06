@@ -134,5 +134,21 @@ public class DiariaValidator {
             
             throw new ValidacaoException(mensagem, fieldError);
         }
+
+        validaCodigoIbge(diaria);
+    }
+
+    private void validaCodigoIbge(Diaria diaria) {
+        var cep = diaria.getCep();
+        var codigoIbge = diaria.getCodigoIbge();
+        var codigoIbgeValido = adapter.buscarEnderecoPorCep(cep).getIbge();
+
+        if (!codigoIbge.equals(codigoIbgeValido)) {
+            var mensagem = "código IBGE inválido";
+            var fieldError = new FieldError(diaria.getClass().getName(), "codigoIbge",
+                diaria.getCodigoIbge(), false, null, null, mensagem);
+            
+            throw new ValidacaoException(mensagem, fieldError);
+        }
     }
 }
