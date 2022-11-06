@@ -8,6 +8,7 @@ import org.springframework.validation.FieldError;
 
 import com.application.ediaristas.core.exceptions.ValidacaoException;
 import com.application.ediaristas.core.models.Diaria;
+import com.application.ediaristas.core.repositories.UsuarioRepository;
 import com.application.ediaristas.core.services.consultaendereco.adapters.EnderecoServiceAdapter;
 import com.application.ediaristas.core.services.consultaendereco.exceptions.EnderecoServiceException;
 
@@ -15,7 +16,10 @@ import com.application.ediaristas.core.services.consultaendereco.exceptions.Ende
 public class DiariaValidator {
 
     @Autowired
-    private EnderecoServiceAdapter adapter;
+    private EnderecoServiceAdapter enderecoServiceAdapter;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
     
     public void validar(Diaria diaria) {
         validaHoraTermino(diaria);
@@ -126,7 +130,7 @@ public class DiariaValidator {
         var cep = diaria.getCep();
 
         try {
-            adapter.buscarEnderecoPorCep(cep);
+            enderecoServiceAdapter.buscarEnderecoPorCep(cep);
         } catch (EnderecoServiceException e) {
             var mensagem = e.getLocalizedMessage();
             var fieldError = new FieldError(diaria.getClass().getName(), "cep",
@@ -141,12 +145,27 @@ public class DiariaValidator {
     private void validaCodigoIbge(Diaria diaria) {
         var cep = diaria.getCep();
         var codigoIbge = diaria.getCodigoIbge();
-        var codigoIbgeValido = adapter.buscarEnderecoPorCep(cep).getIbge();
+        var codigoIbgeValido = enderecoServiceAdapter.buscarEnderecoPorCep(cep).getIbge();
 
         if (!codigoIbge.equals(codigoIbgeValido)) {
             var mensagem = "código IBGE inválido";
             var fieldError = new FieldError(diaria.getClass().getName(), "codigoIbge",
                 diaria.getCodigoIbge(), false, null, null, mensagem);
+            
+            throw new ValidacaoException(mensagem, fieldError);
+        }
+
+        validaDisponibilidadeDiarista(diaria);
+    }
+
+    private void validaDisponibilidadeDiarista(Diaria diaria) {
+        var codigoIbge = diaria.getCodigoIbge();
+        var disponibilidade = usuarioRepository.existsByCidadesAtendidasCodigoIbge(codigoIbge);
+
+        if (!disponibilidade) {
+            var mensagem = "não há diarista disponível para o CEP informado";
+            var fieldError = new FieldError(diaria.getClass().getName(), "cep",
+                diaria.getCep(), false, null, null, mensagem);
             
             throw new ValidacaoException(mensagem, fieldError);
         }
