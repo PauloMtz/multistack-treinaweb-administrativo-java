@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.application.ediaristas.api.assemblers.UsuarioAssembler;
 import com.application.ediaristas.api.dtos.responses.UsuarioResponseDto;
 import com.application.ediaristas.api.services.ApiMeService;
 import com.application.ediaristas.core.permissions.EdiaristasPermissions;
@@ -16,6 +17,9 @@ public class MeRestController {
 
     @Autowired
     private ApiMeService service;
+
+    @Autowired
+    private UsuarioAssembler assembler;
     
     /**
      * a anotação @PreAuthorize é habilitada lá no SecurityConfig
@@ -29,6 +33,9 @@ public class MeRestController {
     @EdiaristasPermissions.isDiaristaOrCliente
     @GetMapping
     public UsuarioResponseDto me() {
-        return service.obterUsuarioLogado();
+        var response = service.obterUsuarioLogado();
+        assembler.adicionaLink(response);
+
+        return response;
     }
 }

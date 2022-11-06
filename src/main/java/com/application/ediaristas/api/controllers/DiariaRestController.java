@@ -17,7 +17,7 @@ import com.application.ediaristas.core.permissions.EdiaristasPermissions;
 
 @RestController
 @RequestMapping("/api/diarias")
-public class DariaRestController {
+public class DiariaRestController {
     
     @Autowired
     private ApiDiariaService service;

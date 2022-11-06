@@ -2,11 +2,13 @@ package com.application.ediaristas.api.dtos.responses;
 
 import java.time.LocalDate;
 
+import com.application.ediaristas.core.enums.TipoUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(SnakeCaseStrategy.class)
-public class UsuarioResponseDto {
+public class UsuarioResponseDto extends HateoasResponseDto {
     
     private Long id;
     private String nomeCompleto;
@@ -119,5 +121,10 @@ public class UsuarioResponseDto {
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    @JsonIgnore
+    public Boolean isCliente() {
+        return tipoUsuario.equals(TipoUsuario.CLIENTE.getId());
     }
 }

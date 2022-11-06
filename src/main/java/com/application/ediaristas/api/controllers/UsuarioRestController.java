@@ -2,6 +2,7 @@ package com.application.ediaristas.api.controllers;
 
 import javax.validation.Valid;
 
+import com.application.ediaristas.api.assemblers.UsuarioAssembler;
 import com.application.ediaristas.api.dtos.requests.UsuarioRequestDto;
 import com.application.ediaristas.api.dtos.responses.UsuarioResponseDto;
 import com.application.ediaristas.api.services.ApiUsuarioService;
@@ -21,6 +22,9 @@ public class UsuarioRestController {
     @Autowired
     private ApiUsuarioService service;
 
+    @Autowired
+    private UsuarioAssembler assembler;
+
     @PostMapping("/usuarios")
     @ResponseStatus(code = HttpStatus.CREATED)
     public UsuarioResponseDto cadastrar(@ModelAttribute @Valid UsuarioRequestDto request) {
@@ -30,6 +34,9 @@ public class UsuarioRestController {
                 senha, telefone, tipo_usuario) 
                 values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         */
-        return service.cadastrar(request);
+        var response = service.cadastrar(request);
+        assembler.adicionaLink(response);
+
+        return response;
     }
 }

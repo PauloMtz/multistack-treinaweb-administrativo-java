@@ -84,5 +84,5 @@ public class UsuarioDiariaResponseDto {
 
     public void setReputacao(Double reputacao) {
         this.reputacao = reputacao;
-    }   
+    }
 }
