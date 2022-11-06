@@ -2,14 +2,20 @@ package com.application.ediaristas.core.validators;
 
 import java.math.BigDecimal;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 
 import com.application.ediaristas.core.exceptions.ValidacaoException;
 import com.application.ediaristas.core.models.Diaria;
+import com.application.ediaristas.core.services.consultaendereco.adapters.EnderecoServiceAdapter;
+import com.application.ediaristas.core.services.consultaendereco.exceptions.EnderecoServiceException;
 
 @Component
 public class DiariaValidator {
+
+    @Autowired
+    private EnderecoServiceAdapter adapter;
     
     public void validar(Diaria diaria) {
         validaHoraTermino(diaria);
@@ -73,6 +79,8 @@ public class DiariaValidator {
             
             throw new ValidacaoException(mensagem, fieldError);
         }
+
+        validaCep(diaria);
     }
 
     private BigDecimal calculaValorTotal(Diaria diaria) {
@@ -112,5 +120,19 @@ public class DiariaValidator {
     
     private BigDecimal calculaValorComodo(BigDecimal valorComodo, Integer qtdeComodos) {
         return valorComodo.multiply(new BigDecimal(qtdeComodos));
+    }
+
+    private void validaCep(Diaria diaria) {
+        var cep = diaria.getCep();
+
+        try {
+            adapter.buscarEnderecoPorCep(cep);
+        } catch (EnderecoServiceException e) {
+            var mensagem = e.getLocalizedMessage();
+            var fieldError = new FieldError(diaria.getClass().getName(), "cep",
+                diaria.getCep(), false, null, null, mensagem);
+            
+            throw new ValidacaoException(mensagem, fieldError);
+        }
     }
 }
