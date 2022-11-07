@@ -1,3 +1,4 @@
 target/
 application-dev.properties
 uploads/
+.vscode/
