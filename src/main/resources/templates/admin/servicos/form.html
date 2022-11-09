@@ -58,9 +58,9 @@
                 <div class="col-md-3 col-sm-12">
                   <div class="form-group">
                     <label for="comissao">Comissão</label>
-                    <input type="text" class="form-control money" th:field="*{comissao}" />
+                    <input type="text" class="form-control money" th:field="*{porcentagemComissao}" />
                     <ul>
-                      <li class="text-danger" th:each="erro : ${#fields.errors('comissao')}"
+                      <li class="text-danger" th:each="erro : ${#fields.errors('porcentagemComissao')}"
                         th:text="${erro}">
                       </li>
                     </ul>

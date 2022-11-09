@@ -37,7 +37,7 @@ public class ServicoForm {
     @PositiveOrZero
     @Max(100)
     @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
-    private BigDecimal comissao;
+    private BigDecimal porcentagemComissao;
 
     @NotNull
     @PositiveOrZero
@@ -110,14 +110,14 @@ public class ServicoForm {
         --> seleciona 'Generate Constructors...'
         --> demais opções: getters e setters, equals() e hashCode() etc.
     */
-    public ServicoForm(String nome, BigDecimal valorMinimo, Integer qtdeHoras, BigDecimal comissao, Integer horasQuarto,
+    public ServicoForm(String nome, BigDecimal valorMinimo, Integer qtdeHoras, BigDecimal porcentagemComissao, Integer horasQuarto,
             BigDecimal valorQuarto, Integer horasSala, BigDecimal valorSala, Integer horasBanheiro,
             BigDecimal valorBanheiro, Integer horasCozinha, BigDecimal valorCozinha, Integer horasQuintal,
             BigDecimal valorQuintal, Integer horasOutros, BigDecimal valorOutros, Icone icone, Integer posicao) {
         this.nome = nome;
         this.valorMinimo = valorMinimo;
         this.qtdeHoras = qtdeHoras;
-        this.comissao = comissao;
+        this.porcentagemComissao = porcentagemComissao;
         this.horasQuarto = horasQuarto;
         this.valorQuarto = valorQuarto;
         this.horasSala = horasSala;
@@ -158,12 +158,12 @@ public class ServicoForm {
         this.qtdeHoras = qtdeHoras;
     }
 
-    public BigDecimal getComissao() {
-        return comissao;
+    public BigDecimal getPorcentagemComissao() {
+        return porcentagemComissao;
     }
 
-    public void setComissao(BigDecimal comissao) {
-        this.comissao = comissao;
+    public void setPorcentagemComissao(BigDecimal comissao) {
+        this.porcentagemComissao = comissao;
     }
 
     public Integer getHorasQuarto() {

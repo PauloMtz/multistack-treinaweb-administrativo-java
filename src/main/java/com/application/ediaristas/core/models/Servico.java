@@ -28,9 +28,6 @@ public class Servico {
     @Column(name = "qtde_horas", nullable = false)
     private Integer qtdeHoras;
 
-    @Column(nullable = false)
-    private BigDecimal comissao;
-
     @Column(name = "porcentagem_comissao", nullable = false)
     private BigDecimal porcentagemComissao;
 
@@ -86,7 +83,7 @@ public class Servico {
         clica com o botão direito do mouse --> seleciona 'Source Action' 
         --> seleciona 'Generate Constructors...'
     */
-    public Servico(Long id, String nome, BigDecimal valorMinimo, Integer qtdeHoras, BigDecimal comissao,
+    public Servico(Long id, String nome, BigDecimal valorMinimo, Integer qtdeHoras, BigDecimal porcentagemComissao,
             Integer horasQuarto, BigDecimal valorQuarto, Integer horasSala, BigDecimal valorSala, Integer horasBanheiro,
             BigDecimal valorBanheiro, Integer horasCozinha, BigDecimal valorCozinha, Integer horasQuintal,
             BigDecimal valorQuintal, Integer horasOutros, BigDecimal valorOutros, Icone icone, Integer posicao) {
@@ -94,7 +91,7 @@ public class Servico {
         this.nome = nome;
         this.valorMinimo = valorMinimo;
         this.qtdeHoras = qtdeHoras;
-        this.comissao = comissao;
+        this.porcentagemComissao = porcentagemComissao;
         this.horasQuarto = horasQuarto;
         this.valorQuarto = valorQuarto;
         this.horasSala = horasSala;
@@ -146,14 +143,6 @@ public class Servico {
 
     public void setQtdeHoras(Integer qtdeHoras) {
         this.qtdeHoras = qtdeHoras;
-    }
-
-    public BigDecimal getComissao() {
-        return comissao;
-    }
-
-    public void setComissao(BigDecimal comissao) {
-        this.comissao = comissao;
     }
 
     public BigDecimal getPorcentagemComissao() {

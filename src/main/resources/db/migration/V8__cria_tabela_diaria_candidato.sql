@@ -1,4 +1,4 @@
-CREATE TABLE `diaria_canditado` (
+CREATE TABLE `diaria_candidato` (
   `diaria_id` bigint NOT NULL,
   `candidato_id` bigint NOT NULL,
   KEY (`candidato_id`),

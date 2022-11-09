@@ -1,6 +1,6 @@
 CREATE TABLE `servico` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `comissao` decimal(19,2) NOT NULL,
+  `porcentagem_comissao` decimal(19,2) NOT NULL,
   `horas_banheiro` int NOT NULL,
   `horas_cozinha` int NOT NULL,
   `horas_outros` int NOT NULL,
