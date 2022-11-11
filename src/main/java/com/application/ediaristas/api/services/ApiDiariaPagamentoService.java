@@ -9,15 +9,20 @@ import com.application.ediaristas.core.enums.DiariaStatus;
 import com.application.ediaristas.core.exceptions.DiariaNaoEncontradaException;
 import com.application.ediaristas.core.models.Diaria;
 import com.application.ediaristas.core.repositories.DiariaRepository;
+import com.application.ediaristas.core.validators.PagamentoDiariaValidator;
 
 @Service
 public class ApiDiariaPagamentoService {
 
     @Autowired
     private DiariaRepository repository;
+
+    @Autowired
+    private PagamentoDiariaValidator validator;
     
     public MensagemResponseDto pagamento(PagamentoRequestDto request, Long id) {
         var diaria = buscarDiariaPorId(id);
+        validator.validarDiaria(diaria);
         diaria.setStatus(DiariaStatus.PAGO);
 
         repository.save(diaria);

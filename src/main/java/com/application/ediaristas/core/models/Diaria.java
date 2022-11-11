@@ -349,4 +349,8 @@ public class Diaria extends Auditable {
             + diarista + ", id = " + id + ", preco = " 
             + preco + ", servico = " + servico + "]";
     }
+
+    public Boolean isSemPagamento() {
+        return status.equals(DiariaStatus.SEM_PAGAMENTO);
+    }
 }
