@@ -1,10 +1,12 @@
 package com.application.ediaristas.core.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authorization.AuthorityAuthorizationDecision;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import com.application.ediaristas.core.enums.TipoUsuario;
 import com.application.ediaristas.core.exceptions.DiariaNaoEncontradaException;
 import com.application.ediaristas.core.exceptions.UsuarioNaoEncontradoException;
 import com.application.ediaristas.core.models.Diaria;
@@ -23,6 +25,15 @@ public class SecurityUtils {
     
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    public Boolean isClienteAuthenticated() {
+        var authentication = getAuthentication();
+        var tipoCliente = TipoUsuario.CLIENTE.name();
+
+        return authentication.getAuthorities()
+            .stream()
+            .anyMatch(authority -> authority.getAuthority().equals(tipoCliente));
     }
 
     public String getEmailUsuarioLogado() {

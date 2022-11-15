@@ -356,4 +356,9 @@ public class DiariaResponseDto extends HateoasResponseDto {
             return false;
         return true;
     }
+
+    @JsonIgnore
+    public Boolean isDiariaSemPagamento() {
+        return status.equals(DiariaStatus.SEM_PAGAMENTO.getId());
+    }
 }
